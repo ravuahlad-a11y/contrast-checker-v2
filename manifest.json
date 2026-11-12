@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Contrast Checker (Full Page)",
+  "version": "2.0.0",
+  "description": "Checks text contrast across the whole page, including iframes and shadow DOM, using the colors the browser actually paints.",
+  "permissions": ["activeTab", "scripting", "webNavigation"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Contrast Checker"
+  }
+}

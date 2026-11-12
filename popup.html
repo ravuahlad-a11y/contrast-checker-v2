@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contrast Checker</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0; width: 420px; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #ffffff; color: #111827;
+    }
+    header, main { padding: 12px 16px; }
+    header { border-bottom: 1px solid #d1d5db; }
+    h1 { font-size: 16px; margin: 0 0 4px; }
+    p.hint { margin: 0; color: #374151; font-size: 13px; }
+    button {
+      font: inherit; padding: 8px 12px; border-radius: 6px; cursor: pointer;
+      border: 1px solid #1f2937; background: #1f2937; color: #ffffff;
+    }
+    button.secondary { background: #ffffff; color: #111827; border-color: #6b7280; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    label { display: flex; gap: 6px; align-items: center; }
+    #status { margin-top: 10px; color: #111827; min-height: 1.4em; }
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+    .stat { border: 1px solid #9ca3af; border-radius: 6px; padding: 6px; text-align: center; }
+    .stat b { display: block; font-size: 18px; }
+    .stat.fail { border-color: #b91c1c; color: #7f1d1d; }
+    .stat.review { border-color: #92400e; color: #78350f; }
+    .stat.pass { border-color: #166534; color: #14532d; }
+    select { font: inherit; padding: 4px; }
+    #list { list-style: none; padding: 0; margin: 10px 0 0; max-height: 360px; overflow: auto; }
+    #list li { border: 1px solid #9ca3af; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
+    .badge { font-weight: 700; font-size: 12px; text-transform: uppercase; }
+    .badge.fail { color: #7f1d1d; }
+    .badge.review { color: #78350f; }
+    .badge.pass { color: #14532d; }
+    .sample { margin: 6px 0 2px; word-break: break-word; }
+    .meta { font-size: 12px; color: #374151; word-break: break-all; }
+    .swatch { display: inline-block; min-width: 56px; text-align: center; padding: 2px 6px; border: 1px solid #6b7280; border-radius: 4px; }
+    .empty { color: #374151; }
+    .note { font-size: 12px; color: #374151; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Contrast Checker</h1>
+    <p class="hint">Checks every visible text item on the page, including iframes, against WCAG 2.2 AA.</p>
+    <div class="row">
+      <button id="scan" type="button">Scan whole page</button>
+      <button id="copy" type="button" class="secondary">Copy report</button>
+    </div>
+    <div class="row">
+      <label><input id="highlight" type="checkbox"> Outline failures on page</label>
+    </div>
+    <div class="row">
+      <label><input id="live" type="checkbox"> Live re-check as page changes</label>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+  </header>
+
+  <main>
+    <div class="summary" id="summary" hidden>
+      <div class="stat pass"><b id="nPass">0</b>pass</div>
+      <div class="stat fail"><b id="nFail">0</b>fail</div>
+      <div class="stat review"><b id="nReview">0</b>review</div>
+      <div class="stat"><b id="nTotal">0</b>checked</div>
+    </div>
+    <div class="row" id="filterRow" hidden>
+      <label>Show
+        <select id="filter">
+          <option value="fail">Failing only</option>
+          <option value="review">Needs review</option>
+          <option value="covered">Hidden under other elements</option>
+          <option value="all">Everything</option>
+        </select>
+      </label>
+    </div>
+    <ul id="list" aria-label="Contrast results"></ul>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

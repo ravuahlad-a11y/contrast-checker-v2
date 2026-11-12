@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contrast test cases</title>
+<style>
+  body { background: #ffffff; color: #000000; font-size: 16px; margin: 16px; }
+  section { position: relative; margin-bottom: 14px; min-height: 28px; }
+  .box { position: relative; padding: 8px; }
+  .scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.6); z-index: 50; }
+  .cover { position: absolute; inset: 0; background: #ffffff; z-index: 40; }
+  .panel { position: absolute; inset: 0; background: #111111; z-index: 0; }
+  .lift { position: relative; z-index: 1; color: #ffffff; }
+  .pseudo { position: relative; color: #ffffff; }
+  .pseudo::before { content: ''; position: absolute; inset: 0; background: #111111; z-index: -1; }
+  .blurbase { position: absolute; inset: 0; background: #000000; z-index: 0; }
+  .blur { position: relative; z-index: 1; backdrop-filter: blur(4px); background: rgba(255,255,255,0.5); color: #000000; padding: 6px; }
+  .gradtext { background: linear-gradient(90deg, #ffffff, #ffff00); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+  .clipbox { height: 0; overflow: hidden; }
+  .offscreen { position: absolute; left: -9999px; }
+  .faded { opacity: 0.3; color: #000000; }
+  .dash-active { background: #e5e5e5; color: #ffffff; }
+  .grey-link { background: #fafafa; color: #777777; }
+  .blue-link { background: #ffffff; color: #0088cc; }
+  .good { background: #ffffff; color: #000000; }
+  .large-grey { background: #ffffff; color: #777777; font-size: 24px; }
+  .overlay-box { background: rgba(0,0,0,0.5); color: #ffffff; }
+  .plain-review { background-image: linear-gradient(#000, #fff); color: #fff; }
+</style>
+</head>
+<body>
+
+<section><p id="c-scrim" style="color:#333;margin:0">Scrim text under a dark overlay</p><div class="scrim" aria-hidden="true"></div></section>
+
+<section><p class="lift" style="margin:0"><span id="c-cover-text" style="color:#fff">Covered by an opaque panel</span></p><div class="cover" aria-hidden="true"></div></section>
+
+<section class="box" style="background:#ffffff"><div class="panel" aria-hidden="true"></div><p id="c-panel" class="lift" style="margin:0">Sibling dark panel text</p></section>
+
+<section><h2 id="c-pseudo" class="pseudo" style="margin:0;font-size:24px">Pseudo element dark block</h2></section>
+
+<section class="box"><div class="blurbase" aria-hidden="true"></div><div class="blur"><p id="c-blur" style="margin:0">Frosted glass text</p></div></section>
+
+<section><span id="c-grad" class="gradtext">Gradient filled text</span></section>
+
+<section><div class="clipbox"><p id="c-clip" style="margin:0">Clipped menu item</p></div></section>
+
+<section style="height:20px"><p class="offscreen" id="c-off">Offscreen helper text</p></section>
+
+<section><input type="submit" id="c-submit" value="Save now" style="background:#eeeeee;color:#cccccc;border:1px solid #888"></section>
+
+<section><div class="faded" id="c-faded" style="margin:0">Faded parent text</div></section>
+
+<section><p class="dash-active" id="t-dash" style="margin:0">Dashboard</p></section>
+<section><p class="grey-link" id="t-grey" style="margin:0">Users</p></section>
+<section><p class="blue-link" id="t-blue" style="margin:0">Forgot your password?</p></section>
+<section><p class="good" id="t-good" style="margin:0">Plain black text</p></section>
+<section><p class="large-grey" id="t-large" style="margin:0">Big grey heading</p></section>
+<section><p class="overlay-box" id="t-overlay" style="margin:0">Translucent overlay text</p></section>
+<section><p class="plain-review" id="t-hero" style="margin:0">Text on a gradient</p></section>
+
+<section><p style="margin:0">Framed content below</p>
+  <iframe id="frm-under" style="width:300px;height:60px;border:0" srcdoc="<!doctype html><body style='margin:0;background:#fff'><p id='inner-grey' style='color:#bbbbbb;margin:4px'>Inside framed grey text</p></body>"></iframe>
+  <div style="position:relative;top:-60px;width:300px;height:60px;background:rgba(0,0,0,0.4)" aria-hidden="true"></div>
+</section>
+
+<section>
+  <iframe id="frm-covered" style="width:300px;height:60px;border:0" srcdoc="<!doctype html><body style='margin:0;background:#fff'><p style='color:#000;margin:4px'>Hidden frame text</p></body>"></iframe>
+  <div style="position:relative;top:-60px;width:300px;height:60px;background:#ffffff" aria-hidden="true"></div>
+</section>
+
+<section><div id="host"></div></section>
+<section><div id="closed-host"></div></section>
+
+<script>
+  const root = document.getElementById('host').attachShadow({ mode: 'open' });
+  root.innerHTML = '<p id="t-shadow" style="background:#fff;color:#aaa;margin:0">Shadow DOM grey</p>';
+  const closed = document.getElementById('closed-host').attachShadow({ mode: 'closed' });
+  closed.innerHTML = '<p style="background:#fff;color:#ccc;margin:0">Closed shadow grey</p>';
+</script>
+</body>
+</html>
